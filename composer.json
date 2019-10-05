@@ -1,7 +1,7 @@
 {
     "name": "yanepenb/page-analyzer",
     "description": "Page-analyzer can help you .. .",
-    "keywords": ["analyzer", "laravel", "lumen"],
+    "keywords": ["page", "analyzer", "laravel", "lumen"],
     "authors": [
         {
             "name": "Ilya Sharipov",
