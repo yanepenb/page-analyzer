@@ -1,5 +1,5 @@
 lint:
-	composer run-script phpcs -- --standard=PSR12 app routes tests
+	composer run-script phpcs -- --standard=PSR12 routes
 
 test:
 	composer run-script phpunit tests
