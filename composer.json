@@ -1,7 +1,13 @@
 {
-    "name": "laravel/lumen",
-    "description": "The Laravel Lumen Framework.",
-    "keywords": ["framework", "laravel", "lumen"],
+    "name": "yanepenb/page-analyzer",
+    "description": "Page-analyzer can help you .. .",
+    "keywords": ["analyzer", "laravel", "lumen"],
+    "authors": [
+        {
+            "name": "Ilya Sharipov",
+            "email": "eanepenb@mail.ru"
+        }
+    ],
     "license": "MIT",
     "type": "project",
     "require": {
@@ -30,7 +36,10 @@
     "scripts": {
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-        ]
+        ],
+        "phpcs": "phpcs",
+        "phpunit": "phpunit",
+        "test": "phpunit tests"
     },
     "config": {
         "preferred-install": "dist",
