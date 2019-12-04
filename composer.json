@@ -12,7 +12,8 @@
     "type": "project",
     "require": {
         "php": "^7.3",
-        "laravel/lumen-framework": "^6.0"
+        "laravel/lumen-framework": "^6.0",
+        "nesbot/carbon": "^2.27"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
