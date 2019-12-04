@@ -1,4 +1,8 @@
 /vendor/
 *.cache
 /build/
+/.idea
+Homestead.json
+Homestead.yaml
 .env
+/database/database.sqlite
