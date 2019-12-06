@@ -1,13 +1,14 @@
 <?php
 
+
 class DomainTest extends TestCase
 {
-    public function testAddUrl()
+    public function testAddDomain()
     {
-        $this->call('POST', '/domains', ['url' => 'https://laravel.com/']);
+        $this->call('POST', '/domains', ['domain' => 'https://travis-ci.org/']);
 
         $this->seeInDatabase('domains', [
-            'name' => 'https://laravel.com/'
+            'name' => 'https://travis-ci.org/'
         ]);
     }
 }

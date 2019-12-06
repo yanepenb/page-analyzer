@@ -32,7 +32,7 @@ $router->get('/domains', function () {
 $router->post('/domains', function (Request $request) {
 
     $validator = Validator::make($request->all(), [
-        'url' => 'required|url'
+        'domain' => 'required|url'
     ]);
     
     if ($validator->fails()) {

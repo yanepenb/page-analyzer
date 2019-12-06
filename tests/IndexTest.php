@@ -6,6 +6,6 @@ class IndexTest extends TestCase
     {
         $response = $this->call('GET', '/');
 
-        $this->assertResponseOk(200, $response->status());
+        $this->assertResponseOk($response->status());
     }
 }
