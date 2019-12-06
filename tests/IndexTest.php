@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Response;
-
 class IndexTest extends TestCase
 {
     public function testApplication()
