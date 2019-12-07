@@ -12,7 +12,7 @@
             <tbody>
                 <tr>
                 <th scope="row">{{ $domain->id }}</th>
-                <td>{{ $domain->name }}</td>
+                <td><a href="{{ $domain->name }}" target="_blank">{{ $domain->name }}</a></td>
                 <td>{{ $domain->updated_at }}</td>
                 <td>{{ $domain->created_at }}</td>
                 </tr>

@@ -12,8 +12,8 @@
             @foreach ($domains as $domain)
                 <tbody>
                     <tr>
-                    <th scope="row">{{ $domain->id }}</th>
-                    <td><a href="/domains/{{ $domain->id }}">{{ $domain->name }}</a></td>
+                    <th scope="row"><a href="/domains/{{ $domain->id }}">{{ $domain->id }}</a></th>
+                    <td><a href="{{ $domain->name }}" target="_blank">{{ $domain->name }}</a></td>
                     <td>{{ $domain->updated_at }}</td>
                     <td>{{ $domain->created_at }}</td>
                     </tr>
