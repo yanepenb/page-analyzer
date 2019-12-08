@@ -16,7 +16,7 @@ class DomainController extends Controller
 
     public function showAll()
     {
-        $domains = DB::table('domains')->get();
+        $domains = DB::table('domains')->paginate(15);
     
         return view('domains', ['domains' => $domains]);
     }
