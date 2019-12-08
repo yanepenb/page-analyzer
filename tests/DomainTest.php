@@ -11,11 +11,4 @@ class DomainTest extends TestCase
             'name' => 'https://travis-ci.org/'
         ]);
     }
-
-    public function testDomainList()
-    {
-        $response = $this->call('GET', '/domains');
-
-        $this->assertResponseOk($response->status());
-    }
 }

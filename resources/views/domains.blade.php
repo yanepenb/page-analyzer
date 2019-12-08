@@ -20,5 +20,6 @@
                 </tbody>
             @endforeach
       </table>
+      
       {{ $domains->links() }}
 @endsection
