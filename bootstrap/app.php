@@ -27,7 +27,7 @@ if (env('APP_DEBUG')) {
     $app->configure('app');
     $app->configure('debugbar');
     //$app->configure('phpunit');
-    //$app->configure('database');
+    // $app->configure('database');
     $app->register(Barryvdh\Debugbar\LumenServiceProvider::class);
 }
 
@@ -87,11 +87,6 @@ $app->singleton(
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
-
-// if (env('APP_DEBUG')) {
-//     $app->register(Barryvdh\Debugbar\LumenServiceProvider::class);
-//     $app->configure('debugbar');
-// }
 
 /*
 |--------------------------------------------------------------------------

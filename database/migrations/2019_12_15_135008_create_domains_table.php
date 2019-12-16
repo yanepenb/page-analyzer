@@ -17,6 +17,9 @@ class CreateDomainsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->timestamps();
+            $table->string('content_length')->nullable();
+            $table->string('response_code')->nullable();
+            $table->string('body')->nullable();
         });
     }
 

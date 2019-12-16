@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Validator;
+use GuzzleHttp\Client;
+use Illuminate\Container\Container;
 
 class DomainController extends Controller
 {
@@ -30,13 +32,25 @@ class DomainController extends Controller
         if ($validator->fails()) {
             return view('index', ['errors' => $validator->errors()->all()]);
         }
-    
-        $date = Carbon::now();
+
         $domain = $request->input('domain');
+        
+        $container = Container::getInstance();
+        $client = $container->make('GuzzleHttp\Client');
+
+        $response = $client->get($domain);
+        $responseCode = $response->getStatusCode();
+        $contentLength = $response->getHeader('Content-Length')[0] ?? '';
+        $body = $response->getBody()->getContents();
+
+        $date = Carbon::now();
         $id = DB::table('domains')->insertGetId([
                                             'name' => $domain,
                                             'updated_at' => $date,
-                                            'created_at' => $date
+                                            'created_at' => $date,
+                                            'content_length' => $contentLength,
+                                            'response_code' => $responseCode,
+                                            'body' => $body
                                         ]);
     
         return redirect()->route('domainId', ['id' => $id]);
