@@ -1,7 +1,7 @@
 <?php
 return [
     //...
-    'default' => env('DB_CONNECTION', 'pgsql'),
+    'default' => env('DB_CONNECTION', 'sqlite'),
     //...
     'connections' => [
         'sqlite' => [
@@ -20,6 +20,8 @@ return [
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'   => '',
+            'schema' => 'public',
+            'sslmode' => 'prefer',
         ]
     ],
     //...
