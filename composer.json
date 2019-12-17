@@ -13,7 +13,8 @@
     "require": {
         "php": "^7.3",
         "laravel/lumen-framework": "^6.0",
-        "nesbot/carbon": "^2.27"
+        "nesbot/carbon": "^2.27",
+        "guzzlehttp/guzzle": "~6.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
