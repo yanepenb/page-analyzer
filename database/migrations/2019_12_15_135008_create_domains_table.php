@@ -19,7 +19,7 @@ class CreateDomainsTable extends Migration
             $table->timestamps();
             $table->string('content_length')->nullable();
             $table->string('response_code')->nullable();
-            $table->text('body')->nullable();
+            $table->longtext('body')->nullable();
         });
     }
 
