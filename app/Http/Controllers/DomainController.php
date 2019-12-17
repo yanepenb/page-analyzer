@@ -38,10 +38,10 @@ class DomainController extends Controller
         $container = Container::getInstance();
         $client = $container->make('GuzzleHttp\Client');
 
-        $response = $client->get($domain);
-        $responseCode = $response->getStatusCode();
-        $contentLength = $response->getHeader('Content-Length')[0] ?? '';
-        $body = $response->getBody()->getContents();
+        $res = $client->get($domain);
+        $responseCode = $res->getStatusCode();
+        $contentLength = $res->getHeader('Content-Length')[0] ?? '';
+        $body = $res->getBody()->getContents();
 
         $date = Carbon::now();
         $id = DB::table('domains')->insertGetId([
