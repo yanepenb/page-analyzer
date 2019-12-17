@@ -35,22 +35,22 @@ class DomainController extends Controller
 
         $domain = $request->input('domain');
         
-        $container = Container::getInstance();
-        $client = $container->make('GuzzleHttp\Client');
+        // $container = Container::getInstance();
+        // $client = $container->make('GuzzleHttp\Client');
 
-        $response = $client->get($domain);
-        $responseCode = $response->getStatusCode();
-        $contentLength = $response->getHeader('Content-Length')[0] ?? '';
-        $body = $response->getBody()->getContents();
+        // $response = $client->get($domain);
+        // $responseCode = $response->getStatusCode();
+        // $contentLength = $response->getHeader('Content-Length')[0] ?? '';
+        // $body = $response->getBody()->getContents();
 
         $date = Carbon::now();
         $id = DB::table('domains')->insertGetId([
                                             'name' => $domain,
                                             'updated_at' => $date,
                                             'created_at' => $date,
-                                            'content_length' => $contentLength,
-                                            'response_code' => $responseCode,
-                                            'body' => $body
+                                            // 'content_length' => $contentLength,
+                                            // 'response_code' => $responseCode,
+                                            // 'body' => $body
                                         ]);
     
         return redirect()->route('domainId', ['id' => $id]);
