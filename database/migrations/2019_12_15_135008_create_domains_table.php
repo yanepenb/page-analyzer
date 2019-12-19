@@ -14,12 +14,15 @@ class CreateDomainsTable extends Migration
     public function up()
     {
         Schema::create('domains', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('name');
             $table->timestamps();
-            $table->string('content_length')->nullable();
-            $table->string('response_code')->nullable();
-            $table->longtext('body')->nullable();
+            $table->bigInteger('content_length');
+            $table->longtext('h1');
+            $table->integer('response_code');
+            $table->longtext('body');
+            $table->text('keywords');
+            $table->longtext('description');
         });
     }
 

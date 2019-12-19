@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Validator;
 use GuzzleHttp\Client;
 use Illuminate\Container\Container;
+use DiDom\Document;
 
 class DomainController extends Controller
 {
@@ -41,15 +42,39 @@ class DomainController extends Controller
         $res = $client->get($domain);
         $responseCode = $res->getStatusCode();
         $contentLength = $res->getHeader('Content-Length')[0] ?? '';
+
         $body = $res->getBody()->getContents();
+
+        $document = new Document($body);
+        if ($document->has('h1')) {
+            $h1 = $document->first('h1')->text();
+        } else {
+            $h1 = '';
+        }
+
+        if ($document->has('meta[name="keywords"]')) {
+            $keywords = $document->find('meta[name="keywords"]')[0]->getAttribute('content');
+        } else {
+            $keywords = '';
+        }
+        
+        if ($document->has('meta[name="description"]')) {
+            $description = $document->find('meta[name="description"]')[0]->getAttribute('content');
+        } else {
+            $description = '';
+        }
+        
 
         $date = Carbon::now();
         $id = DB::table('domains')->insertGetId([
                                             'name' => $domain,
                                             'updated_at' => $date,
                                             'created_at' => $date,
-                                            'content_length' => $contentLength,
                                             'response_code' => $responseCode,
+                                            'content_length' => $contentLength,
+                                            'h1' => $h1,
+                                            'keywords' => $keywords,
+                                            'description' => $description,
                                             'body' => $body
                                         ]);
     

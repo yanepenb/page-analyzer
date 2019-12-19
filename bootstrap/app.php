@@ -21,15 +21,13 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
-$app->withFacades();
-
 if (env('APP_DEBUG')) {
     $app->configure('app');
     $app->configure('debugbar');
-    // $app->configure('phpunit');
-    // $app->configure('database');
-    // $app->register(Barryvdh\Debugbar\LumenServiceProvider::class);
+    $app->register(Barryvdh\Debugbar\LumenServiceProvider::class);
 }
+
+$app->withFacades();
 
 $app->withEloquent();
 
