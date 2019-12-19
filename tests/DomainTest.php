@@ -9,9 +9,9 @@ class DomainTest extends TestCase
 {
     public function testAddDomain()
     {
-        $doc = file_get_contents('tests/fixtures/test.html');
+        $body = file_get_contents('tests/fixtures/test.html');
         $mock = new MockHandler([
-            new Response(200, [], $doc)
+            new Response(200, [], $body)
         ]);
 
         $handler = HandlerStack::create($mock);
@@ -23,8 +23,9 @@ class DomainTest extends TestCase
         $this->post('/domains', ['domain' => 'https://test.com']);
         $this->seeInDatabase('domains', [
             'name' => 'https://test.com',
+            //'content_length' => strlen($body),
             'response_code' => 200,
-            'body' => $doc,
+            'body' => $body,
             'h1' => 'Test',
             'keywords' => 'test page analyzer',
             'description'=> 'Test description'

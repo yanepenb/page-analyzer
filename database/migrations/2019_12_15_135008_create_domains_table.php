@@ -17,12 +17,12 @@ class CreateDomainsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
-            $table->bigInteger('content_length')->nullable();
-            $table->longtext('h1')->nullable();
+            $table->bigInteger('content_length');
+            $table->longtext('h1');
             $table->integer('response_code');
-            $table->longtext('body')->nullable();
-            $table->text('keywords')->nullable();
-            $table->longtext('description')->nullable();
+            $table->longtext('body');
+            $table->longtext('keywords');
+            $table->longtext('description');
         });
     }
 

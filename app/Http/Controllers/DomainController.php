@@ -41,9 +41,13 @@ class DomainController extends Controller
 
         $res = $client->get($domain);
         $responseCode = $res->getStatusCode();
-        $contentLength = $res->getHeader('Content-Length')[0] ?? '';
-
         $body = $res->getBody()->getContents();
+
+        if (isset($res->getHeader('Content-Length')[0])) {
+            $contentLength = (integer) $res->getHeader('Content-Length')[0];
+        } else {
+            $contentLength = strlen($body);
+        }
 
         $document = new Document($body);
         if ($document->has('h1')) {
