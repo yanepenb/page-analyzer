@@ -79,7 +79,7 @@ class DomainController extends Controller
                                             'h1' => $h1,
                                             'keywords' => $keywords,
                                             'description' => $description,
-                                            'body' => $body
+                                            'body' => mb_convert_encoding($body, "UTF-8")
                                         ]);
     
         return redirect()->route('domainId', ['id' => $id]);
