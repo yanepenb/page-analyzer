@@ -83,11 +83,10 @@ class DomainController extends Controller
     public function show($id)
     {
         $domain = DB::table('domains')->where('id', $id)->first();
-
-        if ($domain) { 
+        if ($domain) {
             return view('domain', ['domain' => $domain]);
         }
 
-        throw new \Exception('id not found'); 
+        throw new \Exception('id not found');
     }
 }
