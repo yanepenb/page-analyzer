@@ -15,7 +15,7 @@
             @foreach ($domains as $domain)
                 <tbody>
                     <tr>
-                    <th scope="row"><a href="/domains/{{ $domain->id }}">{{ $domain->id }}</a></th>
+                    <th scope="row"><a href="{{ route('domains.show', ['id' => $domain->id]) }}">{{ $domain->id }}</a></th>
                     <td><a href="{{ $domain->name }}" target="_blank">{{ $domain->name }}</a></td>
                     <td>{{ $domain->response_code }}</td>
                     <td>{{ $domain->content_length }}</td>

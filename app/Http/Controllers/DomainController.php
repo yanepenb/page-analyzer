@@ -14,24 +14,19 @@ class DomainController extends Controller
 {
     public function index()
     {
-        return view('index');
-    }
-
-    public function showAll()
-    {
-        $domains = DB::table('domains')->paginate(5);
+        $domains = DB::table('domains')->paginate(10);
     
         return view('domains', ['domains' => $domains]);
     }
 
-    public function create(Request $request)
+    public function analyze(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'domain' => 'required|url'
         ]);
         
         if ($validator->fails()) {
-            return view('index', ['errors' => $validator->errors()->all()]);
+            return view('home', ['errors' => $validator->errors()->all()]);
         }
 
         $domain = $request->input('domain');
@@ -44,7 +39,7 @@ class DomainController extends Controller
         $body = $res->getBody()->getContents();
 
         if (isset($res->getHeader('Content-Length')[0])) {
-            $contentLength = (integer) $res->getHeader('Content-Length')[0];
+            $contentLength = (int) $res->getHeader('Content-Length')[0];
         } else {
             $contentLength = strlen($body);
         }
@@ -82,13 +77,17 @@ class DomainController extends Controller
                                             'body' => mb_convert_encoding($body, "UTF-8")
                                         ]);
     
-        return redirect()->route('domainId', ['id' => $id]);
+        return redirect()->route('domains.show', ['id' => $id]);
     }
 
-    public function showId($id)
+    public function show($id)
     {
         $domain = DB::table('domains')->where('id', $id)->first();
-    
-        return view('domain', ['domain' => $domain]);
+
+        if ($domain) { 
+            return view('domain', ['domain' => $domain]);
+        }
+
+        throw new \Exception('id not found'); 
     }
 }

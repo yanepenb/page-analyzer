@@ -1,11 +1,13 @@
 <?php
 
+namespace Tests;
+
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Client;
 
-class DomainTest extends TestCase
+class DomainControllerTest extends \Tests\TestCase
 {
     public function testAddDomain()
     {
@@ -20,21 +22,21 @@ class DomainTest extends TestCase
             return new Client(['handler' => $handler]);
         });
 
-        $this->post('/domains', ['domain' => 'https://test.com']);
+        $this->post(route('domains.analysis'), ['domain' => 'https://test.com']);
         $this->seeInDatabase('domains', [
             'name' => 'https://test.com',
-            //'content_length' => strlen($body),
+            'content_length' => strlen($body),
             'response_code' => 200,
             'body' => $body,
             'h1' => 'Test',
             'keywords' => 'test page analyzer',
-            'description'=> 'Test description'
+            'description' => 'Test description'
         ]);
     }
 
     public function testDomainList()
     {
-        $response = $this->call('GET', '/domains');
+        $response = $this->call('GET', route('domains.index'));
 
         $this->assertResponseOk($response->status());
     }
