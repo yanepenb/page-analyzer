@@ -82,7 +82,7 @@ class DomainController extends Controller
                             ]);
     
         return redirect()->route('domains.show', ['id' => $id]);
-    }  
+    }
     
     public function show($id)
     {

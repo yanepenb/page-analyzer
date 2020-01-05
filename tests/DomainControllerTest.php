@@ -15,7 +15,7 @@ class DomainControllerTest extends \Tests\TestCase
 
     private $domainsSet;
 
-    public function setUp():void
+    public function setUp(): void
     {
         parent::setUp();
 
