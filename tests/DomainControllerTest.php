@@ -6,10 +6,23 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Client;
+use Laravel\Lumen\Testing\DatabaseMigrations;
+use App\Domain;
 
 class DomainControllerTest extends \Tests\TestCase
 {
-    public function testAddDomain()
+    use DatabaseMigrations;
+
+    private $domainsSet;
+
+    public function setUp():void
+    {
+        parent::setUp();
+
+        $this->domainsSet = factory(Domain::class, 1)->create();
+    }
+
+    public function testDomainAnalysis()
     {
         $body = file_get_contents('tests/fixtures/test.html');
         $mock = new MockHandler([
@@ -34,10 +47,19 @@ class DomainControllerTest extends \Tests\TestCase
         ]);
     }
 
-    public function testDomainList()
+    public function testDomainsIndex()
     {
-        $response = $this->call('GET', route('domains.index'));
+        $this->seeInDatabase('domains', [
+            'name' => $this->domainsSet->first()->name
+        ]);
 
-        $this->assertResponseOk($response->status());
+        $this->get(route('domains.index'))->assertResponseOk();
+    }
+
+    public function testDomainShow()
+    {
+        $domain = $this->domainsSet;
+        $this->get(route('domains.show', ['id' => $domain->first()->id]));
+        $this->assertResponseOk();
     }
 }

@@ -11,10 +11,10 @@
 |
 */
 
-$router->get('/', ['as' => 'home', 'uses' => 'HomePageController@home']);
+$router->get('/', ['as' => 'home.index', 'uses' => 'HomePageController@index']);
 
 $router->get('/domains', ['as' => 'domains.index', 'uses' => 'DomainController@index']);
 
-$router->post('/domains', ['as' => 'domains.analysis', 'uses' => 'DomainController@analyze']);
+$router->post('/domains', ['as' => 'domains.analysis', 'uses' => 'DomainController@analysis']);
 
 $router->get('/domains/{id}', ['as' => 'domains.show', 'uses' => 'DomainController@show']);

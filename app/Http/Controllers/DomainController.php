@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Domain;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Validator;
@@ -14,12 +15,12 @@ class DomainController extends Controller
 {
     public function index()
     {
-        $domains = DB::table('domains')->paginate(10);
+        $domains = Domain::paginate(15);
     
         return view('domains', ['domains' => $domains]);
     }
 
-    public function analyze(Request $request)
+    public function analysis(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'domain' => 'required|url'
@@ -41,52 +42,52 @@ class DomainController extends Controller
         if (isset($res->getHeader('Content-Length')[0])) {
             $contentLength = (int) $res->getHeader('Content-Length')[0];
         } else {
-            $contentLength = strlen($body);
+            $contentLength = mb_strlen($body);
         }
 
         $document = new Document($body);
         if ($document->has('h1')) {
-            $h1 = $document->first('h1')->text();
+            $header = $document->first('h1');
+            $h1 = $header->text();
         } else {
             $h1 = '';
         }
 
         if ($document->has('meta[name="keywords"]')) {
-            $keywords = $document->find('meta[name="keywords"]')[0]->getAttribute('content');
+            $meta1 = $document->find('meta[name="keywords"]')[0];
+            $keywords = $meta1->getAttribute('content');
         } else {
             $keywords = '';
         }
         
         if ($document->has('meta[name="description"]')) {
-            $description = $document->find('meta[name="description"]')[0]->getAttribute('content');
+            $meta2 = $document->find('meta[name="description"]')[0];
+            $description = $meta2->getAttribute('content');
         } else {
             $description = '';
         }
         
 
         $date = Carbon::now();
-        $id = DB::table('domains')->insertGetId([
-                                            'name' => $domain,
-                                            'updated_at' => $date,
-                                            'created_at' => $date,
-                                            'response_code' => $responseCode,
-                                            'content_length' => $contentLength,
-                                            'h1' => $h1,
-                                            'keywords' => $keywords,
-                                            'description' => $description,
-                                            'body' => mb_convert_encoding($body, "UTF-8")
-                                        ]);
+        $id = Domain::create([
+                                'name' => $domain,
+                                'updated_at' => $date,
+                                'created_at' => $date,
+                                'response_code' => $responseCode,
+                                'content_length' => $contentLength,
+                                'h1' => $h1,
+                                'keywords' => $keywords,
+                                'description' => $description,
+                                'body' => mb_convert_encoding($body, "UTF-8")
+                            ]);
     
         return redirect()->route('domains.show', ['id' => $id]);
-    }
-
+    }  
+    
     public function show($id)
     {
-        $domain = DB::table('domains')->where('id', $id)->first();
-        if ($domain) {
-            return view('domain', ['domain' => $domain]);
-        }
+        $domain = Domain::findOrFail($id);
 
-        throw new \Exception('id not found');
+        return view('domain', ['domain' => $domain]);
     }
 }

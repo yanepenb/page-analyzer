@@ -11,9 +11,16 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+use Faker\Generator as Faker;
+
+$factory->define(App\Domain::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->email,
+        'name' => $faker->domainName,
+        'content_length' => 150,
+        'h1' => $faker->text,
+        'response_code' => 200,
+        'body' => $faker->text,
+        'keywords' => $faker->text,
+        'description' => $faker->text
     ];
 });

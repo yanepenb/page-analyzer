@@ -11,8 +11,6 @@ class HomePageControllerTest extends \Tests\TestCase
 {
     public function testIndex()
     {
-        $response = $this->call('GET', route('home'));
-
-        $this->assertResponseOk($response->status());
+        $this->get(route('home.index'))->assertResponseOk();
     }
 }
