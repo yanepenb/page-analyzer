@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Domain;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use Validator;
 use GuzzleHttp\Client;
 use Illuminate\Container\Container;
@@ -67,12 +65,8 @@ class DomainController extends Controller
             $description = '';
         }
         
-
-        $date = Carbon::now();
         $id = Domain::create([
                                 'name' => $domain,
-                                'updated_at' => $date,
-                                'created_at' => $date,
                                 'response_code' => $responseCode,
                                 'content_length' => $contentLength,
                                 'h1' => $h1,

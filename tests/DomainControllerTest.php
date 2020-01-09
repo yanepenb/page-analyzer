@@ -13,13 +13,13 @@ class DomainControllerTest extends \Tests\TestCase
 {
     use DatabaseMigrations;
 
-    private $domainsSet;
+    private $domainsTestSet;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->domainsSet = factory(Domain::class, 1)->create();
+        $this->domainsTestSet = factory(Domain::class, 1)->create();
     }
 
     public function testDomainAnalysis()
@@ -50,7 +50,7 @@ class DomainControllerTest extends \Tests\TestCase
     public function testDomainsIndex()
     {
         $this->seeInDatabase('domains', [
-            'name' => $this->domainsSet->first()->name
+            'name' => $this->domainsTestSet->first()->name
         ]);
 
         $this->get(route('domains.index'))->assertResponseOk();
@@ -58,8 +58,7 @@ class DomainControllerTest extends \Tests\TestCase
 
     public function testDomainShow()
     {
-        $domain = $this->domainsSet;
-        $this->get(route('domains.show', ['id' => $domain->first()->id]));
+        $this->get(route('domains.show', ['id' => $this->domainsTestSet->first()->id]));
         $this->assertResponseOk();
     }
 }
