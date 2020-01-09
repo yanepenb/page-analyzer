@@ -47,15 +47,6 @@ class DomainControllerTest extends \Tests\TestCase
         ]);
     }
 
-    public function testDomainsIndex()
-    {
-        $this->seeInDatabase('domains', [
-            'name' => $this->domainsTestSet->first()->name
-        ]);
-
-        $this->get(route('domains.index'))->assertResponseOk();
-    }
-
     public function testDomainShow()
     {
         $this->get(route('domains.show', ['id' => $this->domainsTestSet->first()->id]));
