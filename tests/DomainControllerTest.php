@@ -47,9 +47,15 @@ class DomainControllerTest extends \Tests\TestCase
         ]);
     }
 
+    public function testDomainsIndex()
+    {
+        $this->get(route('domains.index'))->assertResponseOk();
+    }
+
     public function testDomainShow()
     {
-        $this->get(route('domains.show', ['id' => $this->domainsTestSet->first()->id]));
+        $domainTest = $this->domainsTestSet->first();
+        $this->get(route('domains.show', ['id' => $domainTest->id]));
         $this->assertResponseOk();
     }
 }
