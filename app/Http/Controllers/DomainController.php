@@ -6,11 +6,17 @@ use Illuminate\Http\Request;
 use App\Domain;
 use Validator;
 use GuzzleHttp\Client;
-use Illuminate\Container\Container;
 use DiDom\Document;
 
 class DomainController extends Controller
 {
+    protected $client;
+
+    public function __construct(Client $client)
+    {
+        $this->client = $client;
+    }
+
     public function index()
     {
         $domains = Domain::paginate(15);
@@ -18,22 +24,19 @@ class DomainController extends Controller
         return view('domains', ['domains' => $domains]);
     }
 
-    public function analysis(Request $request)
+    public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'domain' => 'required|url'
+            'url' => 'required|url'
         ]);
         
         if ($validator->fails()) {
             return view('home', ['errors' => $validator->errors()->all()]);
         }
 
-        $domain = $request->input('domain');
-        
-        $container = Container::getInstance();
-        $client = $container->make('GuzzleHttp\Client');
+        $url = $request->input('url');
 
-        $res = $client->get($domain);
+        $res = $this->client->get($url);
         $responseCode = $res->getStatusCode();
         $body = $res->getBody()->getContents();
 
@@ -44,38 +47,26 @@ class DomainController extends Controller
         }
 
         $document = new Document($body);
-        if ($document->has('h1')) {
-            $header = $document->first('h1');
-            $h1 = $header->text();
-        } else {
-            $h1 = '';
-        }
+        $h1 = $document->first('h1');
+        $header = $h1 ? $h1->text() : '';
+        
+        $meta1 = $document->first('meta[name=keywords]');
+        $keywords = $meta1 ? $meta1->getAttribute('content') : '';
 
-        if ($document->has('meta[name="keywords"]')) {
-            $meta1 = $document->find('meta[name="keywords"]')[0];
-            $keywords = $meta1->getAttribute('content');
-        } else {
-            $keywords = '';
-        }
-        
-        if ($document->has('meta[name="description"]')) {
-            $meta2 = $document->find('meta[name="description"]')[0];
-            $description = $meta2->getAttribute('content');
-        } else {
-            $description = '';
-        }
-        
-        $id = Domain::create([
-                                'name' => $domain,
+        $meta2 = $document->first('meta[name=description]');
+        $description = $meta2 ? $meta2->getAttribute('content') : '';
+
+        $domain = Domain::create([
+                                'name' => $url,
                                 'response_code' => $responseCode,
                                 'content_length' => $contentLength,
-                                'h1' => $h1,
+                                'h1' => $header,
                                 'keywords' => $keywords,
                                 'description' => $description,
                                 'body' => mb_convert_encoding($body, "UTF-8")
                             ]);
     
-        return redirect()->route('domains.show', ['id' => $id]);
+        return redirect()->route('domains.show', ['id' => $domain->id]);
     }
     
     public function show($id)

@@ -22,7 +22,7 @@ class DomainControllerTest extends \Tests\TestCase
         $this->domainsTestSet = factory(Domain::class, 1)->create();
     }
 
-    public function testDomainAnalysis()
+    public function testDomainStore()
     {
         $body = file_get_contents('tests/fixtures/test.html');
         $mock = new MockHandler([
@@ -35,7 +35,7 @@ class DomainControllerTest extends \Tests\TestCase
             return new Client(['handler' => $handler]);
         });
 
-        $this->post(route('domains.analysis'), ['domain' => 'https://test.com']);
+        $this->post(route('domains.store'), ['url' => 'https://test.com']);
         $this->seeInDatabase('domains', [
             'name' => 'https://test.com',
             'content_length' => strlen($body),
@@ -54,8 +54,8 @@ class DomainControllerTest extends \Tests\TestCase
 
     public function testDomainShow()
     {
-        $domainTest = $this->domainsTestSet->first();
-        $this->get(route('domains.show', ['id' => $domainTest->id]));
+        $domain = $this->domainsTestSet->first();
+        $this->get(route('domains.show', ['id' => $domain->id]));
         $this->assertResponseOk();
     }
 }
